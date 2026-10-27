@@ -15,16 +15,16 @@ public class ReporterService {
 private ReporterRepository reporterRepository;
 
 public String saveReporter(Reporter reporter) {
-        reporterRepository.save(reporter);
-        return "Reporter saved successfully";
+    reporterRepository.save(reporter);
+    return "Reporter saved successfully";
     }
 
 public List<Reporter> getAllReporters() {
-        return reporterRepository.findAll();
+    return reporterRepository.findAll();
     }
 
 public Optional<Reporter> getReporterById(UUID id) {
-        return reporterRepository.findById(id);
+    return reporterRepository.findById(id);
     }
 
 public String updateReporter(UUID id, Reporter updated) {
@@ -49,5 +49,9 @@ public String deleteReporter(UUID id) {
         }
         reporterRepository.deleteById(id);
         return "Reporter deleted successfully";
+    }
+
+public List<Reporter> findReportersByLastName(String lastName) {
+        return reporterRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
     }
 }

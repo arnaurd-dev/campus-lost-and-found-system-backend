@@ -1,6 +1,7 @@
 package com.auca.campus_lost_and_found_system.Controller;
 
 import com.auca.campus_lost_and_found_system.Model.ItemReport;
+import com.auca.campus_lost_and_found_system.Model.ReportStatus;
 import com.auca.campus_lost_and_found_system.Service.ItemReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,14 +44,13 @@ public ResponseEntity<List<ItemReport>> getAllItemReports() {
 
 @GetMapping("/{id}")
 public ResponseEntity<?> getItemReportById(@PathVariable UUID id) {
-    Optional<ItemReport> itemReport = itemReportService.getItemReportById(id);
+        Optional<ItemReport> itemReport = itemReportService.getItemReportById(id);
         if (itemReport.isPresent()) {
             return new ResponseEntity<>(itemReport.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("The item report with that id does not exist", HttpStatus.NOT_FOUND);
         }
     }
-
 @PutMapping("/update/{id}")
 public ResponseEntity<String> updateItemReport(@PathVariable UUID id, @RequestBody ItemReport itemReport) {
         String response = itemReportService.updateItemReport(id, itemReport);
@@ -67,5 +69,17 @@ public ResponseEntity<String> deleteItemReport(@PathVariable UUID id) {
         } else {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+ @GetMapping("/by-status")
+    public ResponseEntity<List<ItemReport>> getItemReportsByStatus(@RequestParam ReportStatus status) {
+        return new ResponseEntity<>(itemReportService.getItemReportsByStatus(status), HttpStatus.OK);
+    }
+
+@GetMapping("/between")
+    public ResponseEntity<List<ItemReport>> getItemReportsBetweenDates(@RequestParam String start, @RequestParam String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return new ResponseEntity<>(itemReportService.getItemReportsBetweenDates(startDate, endDate), HttpStatus.OK);
     }
 }

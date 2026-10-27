@@ -1,11 +1,13 @@
 package com.auca.campus_lost_and_found_system.Service;
 
 import com.auca.campus_lost_and_found_system.Model.ItemReport;
+import com.auca.campus_lost_and_found_system.Model.ReportStatus;
 import com.auca.campus_lost_and_found_system.Repository.CustodianRepository;
 import com.auca.campus_lost_and_found_system.Repository.ItemReportRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReporterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -46,7 +48,7 @@ public Optional<ItemReport> getItemReportById(UUID id) {
 public String updateItemReport(UUID id, ItemReport updated) {
         Optional<ItemReport> existing = itemReportRepository.findById(id);
         if (existing.isEmpty()) {
-            return "The item report with that id does not exist";
+        return "The item report with that id does not exist";
         }
         ItemReport report = existing.get();
         report.setReportDate(updated.getReportDate());
@@ -66,5 +68,13 @@ public String deleteItemReport(UUID id) {
         }
         itemReportRepository.deleteById(id);
         return "Item report deleted successfully";
+    }
+
+public List<ItemReport> getItemReportsByStatus(ReportStatus status) {
+        return itemReportRepository.findByStatusOrderByReportDateAsc(status);
+    }
+
+    public List<ItemReport> getItemReportsBetweenDates(LocalDate start, LocalDate end) {
+       return itemReportRepository.findByReportDateBetweenOrderByReportDateAsc(start, end);
     }
 }
