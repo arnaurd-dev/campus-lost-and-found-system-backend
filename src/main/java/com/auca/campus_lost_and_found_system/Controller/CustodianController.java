@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Optional;
@@ -26,20 +27,20 @@ private CustodianService custodianService;
 
 @PostMapping("/save")
 public ResponseEntity<String> saveCustodian(@RequestBody Custodian custodian) {
-String response = custodianService.saveCustodian(custodian);
-if (response.equals("Custodian saved successfully")) {
+        String response = custodianService.saveCustodian(custodian);
+        if (response.equals("Custodian saved successfully")) {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
-@GetMapping("/all")
+    @GetMapping("/all")
 public ResponseEntity<List<Custodian>> getAllCustodians() {
         return new ResponseEntity<>(custodianService.getAllCustodians(), HttpStatus.OK);
     }
 
-@GetMapping("/{id}")
+    @GetMapping("/{id}")
 public ResponseEntity<?> getCustodianById(@PathVariable UUID id) {
         Optional<Custodian> custodian = custodianService.getCustodianById(id);
         if (custodian.isPresent()) {
@@ -67,5 +68,10 @@ public ResponseEntity<String> deleteCustodian(@PathVariable UUID id) {
         } else {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+@GetMapping("/by-item-category")
+    public ResponseEntity<List<Custodian>> getCustodiansByItemCategory(@RequestParam String name) {
+        return new ResponseEntity<>(custodianService.getCustodiansByItemCategoryName(name), HttpStatus.OK);
     }
 }

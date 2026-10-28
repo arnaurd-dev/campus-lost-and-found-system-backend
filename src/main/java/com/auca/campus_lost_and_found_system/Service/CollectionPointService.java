@@ -47,4 +47,8 @@ public String deleteCollectionPoint(UUID id) {
         collectionPointRepository.deleteById(id);
         return "Collection point deleted successfully";
     }
+
+public List<CollectionPoint> getFreeCollectionPoints() {
+        return collectionPointRepository.findFreeCollectionPoints();
+    }
 }

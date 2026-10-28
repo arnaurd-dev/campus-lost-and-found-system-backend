@@ -28,22 +28,22 @@ private ItemCategoryService itemCategoryService;
 public ResponseEntity<String> saveItemCategory(@RequestBody ItemCategory itemCategory) {
         String response = itemCategoryService.saveItemCategory(itemCategory);
         if (response.equals("Item category saved successfully")) {
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
         } else {
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }
 
 @GetMapping("/all")
 public ResponseEntity<List<ItemCategory>> getAllItemCategories() {
-return new ResponseEntity<>(itemCategoryService.getAllItemCategories(), HttpStatus.OK);
+        return new ResponseEntity<>(itemCategoryService.getAllItemCategories(), HttpStatus.OK);
     }
 
 @GetMapping("/{id}")
 public ResponseEntity<?> getItemCategoryById(@PathVariable UUID id) {
-    Optional<ItemCategory> itemCategory = itemCategoryService.getItemCategoryById(id);
+        Optional<ItemCategory> itemCategory = itemCategoryService.getItemCategoryById(id);
         if (itemCategory.isPresent()) {
-            return new ResponseEntity<>(itemCategory.get(), HttpStatus.OK);
+        return new ResponseEntity<>(itemCategory.get(), HttpStatus.OK);
         } else {
             return new ResponseEntity<>("The item category with that id does not exist", HttpStatus.NOT_FOUND);
         }
@@ -67,5 +67,10 @@ public ResponseEntity<String> deleteItemCategory(@PathVariable UUID id) {
         } else {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+@GetMapping("/unused")
+public ResponseEntity<List<ItemCategory>> getUnusedItemCategories() {
+        return new ResponseEntity<>(itemCategoryService.getUnusedItemCategories(), HttpStatus.OK);
     }
 }

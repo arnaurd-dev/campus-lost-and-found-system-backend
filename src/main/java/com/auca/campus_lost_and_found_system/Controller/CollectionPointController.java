@@ -25,7 +25,7 @@ public class CollectionPointController {
 private CollectionPointService collectionPointService;
 
 @PostMapping("/save")
-public ResponseEntity<String> saveCollectionPoint(@RequestBody CollectionPoint collectionPoint) {
+    public ResponseEntity<String> saveCollectionPoint(@RequestBody CollectionPoint collectionPoint) {
         String response = collectionPointService.saveCollectionPoint(collectionPoint);
         if (response.equals("Collection point saved successfully")) {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -35,12 +35,12 @@ public ResponseEntity<String> saveCollectionPoint(@RequestBody CollectionPoint c
     }
 
 @GetMapping("/all")
-public ResponseEntity<List<CollectionPoint>> getAllCollectionPoints() {
+    public ResponseEntity<List<CollectionPoint>> getAllCollectionPoints() {
         return new ResponseEntity<>(collectionPointService.getAllCollectionPoints(), HttpStatus.OK);
     }
 
 @GetMapping("/{id}")
-public ResponseEntity<?> getCollectionPointById(@PathVariable UUID id) {
+    public ResponseEntity<?> getCollectionPointById(@PathVariable UUID id) {
         Optional<CollectionPoint> collectionPoint = collectionPointService.getCollectionPointById(id);
         if (collectionPoint.isPresent()) {
             return new ResponseEntity<>(collectionPoint.get(), HttpStatus.OK);
@@ -50,7 +50,7 @@ public ResponseEntity<?> getCollectionPointById(@PathVariable UUID id) {
     }
 
 @PutMapping("/update/{id}")
-public ResponseEntity<String> updateCollectionPoint(@PathVariable UUID id, @RequestBody CollectionPoint collectionPoint) {
+    public ResponseEntity<String> updateCollectionPoint(@PathVariable UUID id, @RequestBody CollectionPoint collectionPoint) {
         String response = collectionPointService.updateCollectionPoint(id, collectionPoint);
         if (response.equals("Collection point updated successfully")) {
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -67,5 +67,10 @@ public ResponseEntity<String> deleteCollectionPoint(@PathVariable UUID id) {
         } else {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
+    }
+
+@GetMapping("/free")
+public ResponseEntity<List<CollectionPoint>> getFreeCollectionPoints() {
+        return new ResponseEntity<>(collectionPointService.getFreeCollectionPoints(), HttpStatus.OK);
     }
 }

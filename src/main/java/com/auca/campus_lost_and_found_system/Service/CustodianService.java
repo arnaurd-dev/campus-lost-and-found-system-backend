@@ -53,7 +53,7 @@ public Optional<Custodian> getCustodianById(UUID id) {
 public String updateCustodian(UUID id, Custodian updated) {
         Optional<Custodian> existing = custodianRepository.findById(id);
         if (existing.isEmpty()) {
-            return "The custodian with that id does not exist";
+        return "The custodian with that id does not exist";
         }
         Custodian custodian = existing.get();
         custodian.setFirstName(updated.getFirstName());
@@ -72,5 +72,9 @@ public String deleteCustodian(UUID id) {
         }
         custodianRepository.deleteById(id);
         return "Custodian deleted successfully";
+    }
+
+public List<Custodian> getCustodiansByItemCategoryName(String name) {
+        return custodianRepository.findCustodiansByItemCategoryName(name);
     }
 }

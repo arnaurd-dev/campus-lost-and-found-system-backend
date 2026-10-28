@@ -1,6 +1,7 @@
 package com.auca.campus_lost_and_found_system.Service;
 
 import com.auca.campus_lost_and_found_system.Model.Reporter;
+import com.auca.campus_lost_and_found_system.Repository.CustodianRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReporterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,9 @@ public class ReporterService {
 
 @Autowired
 private ReporterRepository reporterRepository;
+
+@Autowired
+private CustodianRepository custodianRepository;
 
 public String saveReporter(Reporter reporter) {
     reporterRepository.save(reporter);
@@ -53,5 +57,12 @@ public String deleteReporter(UUID id) {
 
 public List<Reporter> findReportersByLastName(String lastName) {
         return reporterRepository.findByLastNameIgnoreCaseOrderByFirstNameAsc(lastName);
+    }
+
+public Optional<List<Reporter>> getReportersOfCustodian(UUID custodianId) {
+        if (!custodianRepository.existsById(custodianId)) {
+        return Optional.empty();
+        }
+    return Optional.of(reporterRepository.findReportersByCustodianId(custodianId));
     }
 }

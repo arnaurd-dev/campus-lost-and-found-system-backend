@@ -30,7 +30,7 @@ public Optional<ItemCategory> getItemCategoryById(UUID id) {
 public String updateItemCategory(UUID id, ItemCategory updated) {
         Optional<ItemCategory> existing = itemCategoryRepository.findById(id);
         if (existing.isEmpty()) {
-            return "The item category with that id does not exist";
+        return "The item category with that id does not exist";
         }
         ItemCategory category = existing.get();
         category.setName(updated.getName());
@@ -41,9 +41,13 @@ public String updateItemCategory(UUID id, ItemCategory updated) {
 public String deleteItemCategory(UUID id) {
         Optional<ItemCategory> existing = itemCategoryRepository.findById(id);
         if (existing.isEmpty()) {
-            return "The item category with that id does not exist";
+        return "The item category with that id does not exist";
         }
         itemCategoryRepository.deleteById(id);
         return "Item category deleted successfully";
+    }
+
+public List<ItemCategory> getUnusedItemCategories() {
+        return itemCategoryRepository.findUnusedItemCategories();
     }
 }
