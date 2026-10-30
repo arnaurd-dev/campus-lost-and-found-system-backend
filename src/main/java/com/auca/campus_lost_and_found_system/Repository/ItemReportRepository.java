@@ -1,5 +1,6 @@
 package com.auca.campus_lost_and_found_system.Repository;
 
+import com.auca.campus_lost_and_found_system.Model.Custodian;
 import com.auca.campus_lost_and_found_system.Model.ItemReport;
 import com.auca.campus_lost_and_found_system.Model.ReportStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,5 @@ public interface ItemReportRepository extends JpaRepository<ItemReport, UUID> {
 
 List<ItemReport> findByStatusOrderByReportDateAsc(ReportStatus status);
 List<ItemReport> findByReportDateBetweenOrderByReportDateAsc(LocalDate start, LocalDate end);
+boolean existsByCustodianAndReportDateAndStatusNot(Custodian custodian, LocalDate reportDate, ReportStatus status);
 }

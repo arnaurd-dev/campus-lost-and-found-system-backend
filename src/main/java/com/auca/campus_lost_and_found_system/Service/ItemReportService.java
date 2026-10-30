@@ -25,6 +25,9 @@ private ReporterRepository reporterRepository;
 private CustodianRepository custodianRepository;
 
 public String saveItemReport(ItemReport itemReport) {
+        if (itemReport.getReportDate() != null && itemReport.getReportDate().isBefore(LocalDate.now())) {
+            return "Item report date cannot be in the past";
+        }
         if (itemReport.getReporter() != null && itemReport.getReporter().getId() != null) {
             reporterRepository.findById(itemReport.getReporter().getId())
                 .ifPresent(itemReport::setReporter);
@@ -33,6 +36,12 @@ public String saveItemReport(ItemReport itemReport) {
             custodianRepository.findById(itemReport.getCustodian().getId())
                 .ifPresent(itemReport::setCustodian);
         }
+        if (itemReport.getCustodian() != null && itemReport.getReportDate() != null) {
+            if (itemReportRepository.existsByCustodianAndReportDateAndStatusNot(itemReport.getCustodian(), itemReport.getReportDate(), ReportStatus.CLOSED)) {
+                return "Custodian already handles a report on that date";
+            }
+        }
+        itemReport.setStatus(ReportStatus.REPORTED);
         itemReportRepository.save(itemReport);
         return "Item report saved successfully";
     }
@@ -48,11 +57,10 @@ public Optional<ItemReport> getItemReportById(UUID id) {
 public String updateItemReport(UUID id, ItemReport updated) {
         Optional<ItemReport> existing = itemReportRepository.findById(id);
         if (existing.isEmpty()) {
-        return "The item report with that id does not exist";
+            return "The item report with that id does not exist";
         }
         ItemReport report = existing.get();
         report.setReportDate(updated.getReportDate());
-        report.setStatus(updated.getStatus());
         report.setItemName(updated.getItemName());
         report.setLocationFound(updated.getLocationFound());
         report.setReporter(updated.getReporter());
@@ -74,7 +82,32 @@ public List<ItemReport> getItemReportsByStatus(ReportStatus status) {
         return itemReportRepository.findByStatusOrderByReportDateAsc(status);
     }
 
-    public List<ItemReport> getItemReportsBetweenDates(LocalDate start, LocalDate end) {
-       return itemReportRepository.findByReportDateBetweenOrderByReportDateAsc(start, end);
+public List<ItemReport> getItemReportsBetweenDates(LocalDate start, LocalDate end) {
+        return itemReportRepository.findByReportDateBetweenOrderByReportDateAsc(start, end);
+    }
+
+public String updateItemReportStatus(UUID id, ReportStatus newStatus) {
+        Optional<ItemReport> existing = itemReportRepository.findById(id);
+        if (existing.isEmpty()) {
+            return "The item report with that id does not exist";
+        }
+        ItemReport report = existing.get();
+        ReportStatus current = report.getStatus();
+        boolean allowed = false;
+        if (current == ReportStatus.REPORTED) {
+            if (newStatus == ReportStatus.MATCHED || newStatus == ReportStatus.CLOSED) {
+                allowed = true;
+            }
+        } else if (current == ReportStatus.MATCHED) {
+            if (newStatus == ReportStatus.RETURNED || newStatus == ReportStatus.CLOSED) {
+                allowed = true;
+            }
+        }
+        if (!allowed) {
+            return "Cannot change status from " + current + " to " + newStatus;
+        }
+        report.setStatus(newStatus);
+        itemReportRepository.save(report);
+        return "Item report status updated successfully";
     }
 }

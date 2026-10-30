@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,6 +33,10 @@ public ResponseEntity<String> saveItemReport(@RequestBody ItemReport itemReport)
         String response = itemReportService.saveItemReport(itemReport);
         if (response.equals("Item report saved successfully")) {
             return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } else if (response.equals("Item report date cannot be in the past")) {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } else if (response.equals("Custodian already handles a report on that date")) {
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
@@ -51,6 +56,7 @@ public ResponseEntity<?> getItemReportById(@PathVariable UUID id) {
             return new ResponseEntity<>("The item report with that id does not exist", HttpStatus.NOT_FOUND);
         }
     }
+
 @PutMapping("/update/{id}")
 public ResponseEntity<String> updateItemReport(@PathVariable UUID id, @RequestBody ItemReport itemReport) {
         String response = itemReportService.updateItemReport(id, itemReport);
@@ -71,15 +77,27 @@ public ResponseEntity<String> deleteItemReport(@PathVariable UUID id) {
         }
     }
 
- @GetMapping("/by-status")
-    public ResponseEntity<List<ItemReport>> getItemReportsByStatus(@RequestParam ReportStatus status) {
+@GetMapping("/by-status")
+public ResponseEntity<List<ItemReport>> getItemReportsByStatus(@RequestParam ReportStatus status) {
         return new ResponseEntity<>(itemReportService.getItemReportsByStatus(status), HttpStatus.OK);
     }
 
 @GetMapping("/between")
-    public ResponseEntity<List<ItemReport>> getItemReportsBetweenDates(@RequestParam String start, @RequestParam String end) {
+public ResponseEntity<List<ItemReport>> getItemReportsBetweenDates(@RequestParam String start, @RequestParam String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         return new ResponseEntity<>(itemReportService.getItemReportsBetweenDates(startDate, endDate), HttpStatus.OK);
+    }
+
+@PatchMapping("/{id}/status")
+public ResponseEntity<String> updateItemReportStatus(@PathVariable UUID id, @RequestParam ReportStatus status) {
+        String response = itemReportService.updateItemReportStatus(id, status);
+        if (response.equals("Item report status updated successfully")) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else if (response.equals("The item report with that id does not exist")) {
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            } else {
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 }

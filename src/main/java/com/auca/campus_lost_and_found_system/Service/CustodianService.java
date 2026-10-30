@@ -1,5 +1,6 @@
 package com.auca.campus_lost_and_found_system.Service;
 
+import com.auca.campus_lost_and_found_system.Model.CollectionPoint;
 import com.auca.campus_lost_and_found_system.Model.Custodian;
 import com.auca.campus_lost_and_found_system.Model.ItemCategory;
 import com.auca.campus_lost_and_found_system.Repository.CollectionPointRepository;
@@ -16,10 +17,10 @@ import java.util.UUID;
 public class CustodianService {
 
 @Autowired
-private CustodianRepository custodianRepository;
+    private CustodianRepository custodianRepository;
 
 @Autowired
-private CollectionPointRepository collectionPointRepository;
+    private CollectionPointRepository collectionPointRepository;
 
 @Autowired
 private ItemCategoryRepository itemCategoryRepository;
@@ -53,7 +54,7 @@ public Optional<Custodian> getCustodianById(UUID id) {
 public String updateCustodian(UUID id, Custodian updated) {
         Optional<Custodian> existing = custodianRepository.findById(id);
         if (existing.isEmpty()) {
-        return "The custodian with that id does not exist";
+            return "The custodian with that id does not exist";
         }
         Custodian custodian = existing.get();
         custodian.setFirstName(updated.getFirstName());
@@ -76,5 +77,48 @@ public String deleteCustodian(UUID id) {
 
 public List<Custodian> getCustodiansByItemCategoryName(String name) {
         return custodianRepository.findCustodiansByItemCategoryName(name);
+    }
+
+public String addCategoryToCustodian(UUID custodianId, UUID itemCategoryId) {
+        Optional<Custodian> custodianOpt = custodianRepository.findById(custodianId);
+        if (custodianOpt.isEmpty()) {
+            return "The custodian with that id does not exist";
+        }
+        Optional<ItemCategory> categoryOpt = itemCategoryRepository.findById(itemCategoryId);
+        if (categoryOpt.isEmpty()) {
+            return "That item category does not exist";
+        }
+        Custodian custodian = custodianOpt.get();
+        ItemCategory category = categoryOpt.get();
+        if (custodian.getItemCategories() == null) {
+            custodian.setItemCategories(new ArrayList<>());
+        }
+        for (ItemCategory existingCat : custodian.getItemCategories()) {
+            if (existingCat.getId().equals(itemCategoryId)) {
+                return "The custodian already has that item category";
+            }
+        }
+        custodian.getItemCategories().add(category);
+        custodianRepository.save(custodian);
+        return "Item category added to the custodian";
+    }
+
+public String moveCustodianCollectionPoint(UUID custodianId, int pointNumber) {
+        Optional<Custodian> custodianOpt = custodianRepository.findById(custodianId);
+        if (custodianOpt.isEmpty()) {
+            return "The custodian with that id does not exist";
+        }
+        Optional<CollectionPoint> cpOpt = collectionPointRepository.findByPointNumber(pointNumber);
+        if (cpOpt.isEmpty()) {
+            return "The collection point with that pointNumber does not exist";
+        }
+        CollectionPoint newPoint = cpOpt.get();
+        if (custodianRepository.existsByCollectionPoint(newPoint)) {
+            return "That collection point is taken by another custodian";
+        }
+        Custodian custodian = custodianOpt.get();
+        custodian.setCollectionPoint(newPoint);
+        custodianRepository.save(custodian);
+        return "Collection point changed successfully";
     }
 }
