@@ -72,6 +72,8 @@ public ResponseEntity<String> deleteItemReport(@PathVariable UUID id) {
         String response = itemReportService.deleteItemReport(id);
         if (response.equals("Item report deleted successfully")) {
             return new ResponseEntity<>(response, HttpStatus.OK);
+        } else if (response.equals("That item report has return receipts, delete them first")) {
+            return new ResponseEntity<>(response, HttpStatus.CONFLICT);
         } else {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
@@ -96,7 +98,7 @@ public ResponseEntity<String> updateItemReportStatus(@PathVariable UUID id, @Req
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else if (response.equals("The item report with that id does not exist")) {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-            } else {
+        } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
     }

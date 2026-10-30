@@ -5,6 +5,7 @@ import com.auca.campus_lost_and_found_system.Model.ReportStatus;
 import com.auca.campus_lost_and_found_system.Repository.CustodianRepository;
 import com.auca.campus_lost_and_found_system.Repository.ItemReportRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReporterRepository;
+import com.auca.campus_lost_and_found_system.Repository.ReturnReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
@@ -23,6 +24,9 @@ private ReporterRepository reporterRepository;
 
 @Autowired
 private CustodianRepository custodianRepository;
+
+@Autowired
+private ReturnReceiptRepository returnReceiptRepository;
 
 public String saveItemReport(ItemReport itemReport) {
         if (itemReport.getReportDate() != null && itemReport.getReportDate().isBefore(LocalDate.now())) {
@@ -73,6 +77,9 @@ public String deleteItemReport(UUID id) {
         Optional<ItemReport> existing = itemReportRepository.findById(id);
         if (existing.isEmpty()) {
             return "The item report with that id does not exist";
+        }
+        if (returnReceiptRepository.existsByItemReport(existing.get())) {
+            return "That item report has return receipts, delete them first";
         }
         itemReportRepository.deleteById(id);
         return "Item report deleted successfully";
