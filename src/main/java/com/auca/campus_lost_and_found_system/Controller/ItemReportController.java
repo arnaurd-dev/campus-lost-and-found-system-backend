@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.UUID;;
 
 @RestController
 @RequestMapping("/api/item-reports")
@@ -101,5 +101,16 @@ public ResponseEntity<String> updateItemReportStatus(@PathVariable UUID id, @Req
         } else {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
+    }
+
+@GetMapping("/stats/by-status")
+public ResponseEntity<List<Object[]>> getStatsByStatus() {
+        return new ResponseEntity<>(itemReportService.getStatsByStatus(), HttpStatus.OK);
+    }
+
+@PatchMapping("/cancel-day")
+public ResponseEntity<String> cancelDay(@RequestParam UUID custodianId, @RequestParam String date) {
+        LocalDate reportDate = LocalDate.parse(date);
+        return new ResponseEntity<>(itemReportService.cancelDay(custodianId, reportDate), HttpStatus.OK);
     }
 }

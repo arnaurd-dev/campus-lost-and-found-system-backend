@@ -8,6 +8,7 @@ import com.auca.campus_lost_and_found_system.Repository.ReporterRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReturnReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -116,5 +117,14 @@ public String updateItemReportStatus(UUID id, ReportStatus newStatus) {
         report.setStatus(newStatus);
         itemReportRepository.save(report);
         return "Item report status updated successfully";
+    }
+
+public List<Object[]> getStatsByStatus() {
+        return itemReportRepository.countReportsPerStatus();
+    }
+@Transactional
+public String cancelDay(UUID custodianId, LocalDate date) {
+        int count = itemReportRepository.cancelDayReports(custodianId, date, ReportStatus.CLOSED, ReportStatus.RETURNED);
+        return count + " item reports cancelled";
     }
 }
