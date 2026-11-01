@@ -7,6 +7,8 @@ import com.auca.campus_lost_and_found_system.Repository.ItemReportRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReporterRepository;
 import com.auca.campus_lost_and_found_system.Repository.ReturnReceiptRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
@@ -126,5 +128,8 @@ public List<Object[]> getStatsByStatus() {
 public String cancelDay(UUID custodianId, LocalDate date) {
         int count = itemReportRepository.cancelDayReports(custodianId, date, ReportStatus.CLOSED, ReportStatus.RETURNED);
         return count + " item reports cancelled";
+    }
+public Page<ItemReport> getItemReportsPage(Pageable pageable) {
+        return itemReportRepository.findAll(pageable);
     }
 }

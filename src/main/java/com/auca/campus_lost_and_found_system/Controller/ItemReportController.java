@@ -4,6 +4,10 @@ import com.auca.campus_lost_and_found_system.Model.ItemReport;
 import com.auca.campus_lost_and_found_system.Model.ReportStatus;
 import com.auca.campus_lost_and_found_system.Service.ItemReportService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -112,5 +116,16 @@ public ResponseEntity<List<Object[]>> getStatsByStatus() {
 public ResponseEntity<String> cancelDay(@RequestParam UUID custodianId, @RequestParam String date) {
         LocalDate reportDate = LocalDate.parse(date);
         return new ResponseEntity<>(itemReportService.cancelDay(custodianId, reportDate), HttpStatus.OK);
+    }
+@GetMapping("/page")
+public ResponseEntity<Page<ItemReport>> getItemReportsPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "reportDate,desc") String sort) {
+        String[] sortParts = sort.split(",");
+        String sortField = sortParts[0];
+        Sort.Direction direction = (sortParts.length > 1 && sortParts[1].equalsIgnoreCase("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+        return new ResponseEntity<>(itemReportService.getItemReportsPage(pageable), HttpStatus.OK);
     }
 }

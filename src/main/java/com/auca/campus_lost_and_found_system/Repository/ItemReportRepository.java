@@ -26,4 +26,7 @@ boolean existsByCustodianAndReportDateAndStatusNot(Custodian custodian, LocalDat
 @Modifying
 @Query("UPDATE ItemReport ir SET ir.status = :closedStatus WHERE ir.custodian.id = :custodianId AND ir.reportDate = :date AND ir.status != :returnedStatus")
     int cancelDayReports(@Param("custodianId") UUID custodianId, @Param("date") LocalDate date, @Param("closedStatus") ReportStatus closedStatus, @Param("returnedStatus") ReportStatus returnedStatus);
+
+    long countByReportDate(LocalDate date);
+    long countByStatus(ReportStatus status);
 }
