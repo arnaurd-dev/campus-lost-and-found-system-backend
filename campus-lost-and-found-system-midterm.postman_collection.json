@@ -1,0 +1,644 @@
+{
+  "info": {
+    "_postman_id": "1f396f4d-217c-4c05-8c3e-c1ba3129aa5a",
+    "name": "campus-lost-and-found-system-midterm",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58432272",
+    "_collection_link": "https://go.postman.co/collection/58432272-1f396f4d-217c-4c05-8c3e-c1ba3129aa5a?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "A2 - Save Item Category",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"name\": \"Keys\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/item-categories/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-categories",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Save Collection Point",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"pointNumber\": 4,\r\n  \"name\": \"Sports Complex Booth\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/collection-points/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "collection-points",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Save Custodian",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"firstName\": \"Eric\",\r\n  \"lastName\": \"Kwizera\",\r\n  \"phone\": \"0788333333\",\r\n  \"collectionPoint\": {\r\n    \"id\": \"6a21281e-33b0-458b-8b08-f5816b678151\",\r\n    \"pointNumber\": 3,\r\n    \"name\": \"IT Helpdesk Gate\"\r\n  },\r\n  \"itemCategories\": [\r\n    {\r\n      \"id\": \"7c344815-1a92-4f9d-bac5-2855d2619b52\",\r\n      \"name\": \"Documents\"\r\n    }\r\n  ]\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/custodians/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "custodians",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Save Reporter",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"firstName\": \"Grace\",\r\n  \"lastName\": \"Ingabire\",\r\n  \"campusId\": \"AUCA-27631\",\r\n  \"phone\": \"0788100005\",\r\n  \"email\": \"grace.i@auca.ac.rw\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/reporters/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "reporters",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "A2 - Save Item Report",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"reportDate\": \"2026-11-15\",\r\n  \"status\": \"REPORTED\",\r\n  \"itemName\": \"Student ID Badge\",\r\n  \"locationFound\": \"Campus Gate\",\r\n  \"reporter\": {\r\n    \"id\": \"76dbe0e9-71ae-4721-8612-9158aee9bf19\",\r\n    \"firstName\": \"Claire\",\r\n    \"lastName\": \"Mukamana\",\r\n    \"campusId\": \"AUCA-27629\",\r\n    \"phone\": \"0788100003\",\r\n    \"email\": \"claire.m@auca.ac.rw\"\r\n  },\r\n  \"custodian\": {\r\n    \"id\": \"5493d976-ac8e-4530-806e-16012e730106\",\r\n    \"firstName\": \"Patrick\",\r\n    \"lastName\": \"Mugisha\",\r\n    \"phone\": \"0788111111\"\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B1 - Find reporters by lastName",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/reporters/by-last-name?lastName=ngoga",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "reporters",
+            "by-last-name"
+          ],
+          "query": [
+            {
+              "key": "lastName",
+              "value": "ngoga"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B2 - Item reports by status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/by-status?status=RETURNED",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "by-status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "RETURNED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "B3 - Item reports in a date range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/between?start=2026-10-01&end=2026-10-31",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "between"
+          ],
+          "query": [
+            {
+              "key": "start",
+              "value": "2026-10-01"
+            },
+            {
+              "key": "end",
+              "value": "2026-10-31"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C1 - Custodians by item category",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/custodians/by-item-category?name=electronics",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "custodians",
+            "by-item-category"
+          ],
+          "query": [
+            {
+              "key": "name",
+              "value": "electronics"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C2 - Free collection points",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/collection-points/free",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "collection-points",
+            "free"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C3 - Item categories nobody holds",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-categories/unused",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-categories",
+            "unused"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "C4 - Reporters of a custodian",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/reporters/of-custodian/5493d976-ac8e-4530-806e-16012e730106",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "reporters",
+            "of-custodian",
+            "5493d976-ac8e-4530-806e-16012e730106"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D1 - Safe saving",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"reportDate\": \"2026-11-15\",\r\n  \"itemName\": \"Water Bottle\",\r\n  \"locationFound\": \"Library\",\r\n  \"custodian\": {\r\n    \"id\": \"5493d976-ac8e-4530-806e-16012e730106\"\r\n  }\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/save",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "save"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D2 - Status flow",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/4d082df3-f537-4194-ae1b-96eb995670ff/status?status=MATCHED",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "4d082df3-f537-4194-ae1b-96eb995670ff",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "MATCHED"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D3 - Add category to custodian",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/custodians/5493d976-ac8e-4530-806e-16012e730106/item-categories/e8b65126-c097-442d-bd6a-b27f85a0dfa0",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "custodians",
+            "5493d976-ac8e-4530-806e-16012e730106",
+            "item-categories",
+            "e8b65126-c097-442d-bd6a-b27f85a0dfa0"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "D4 - Move custodian to collection point",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/custodians/5493d976-ac8e-4530-806e-16012e730106/collection-point?pointNumber=99",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "custodians",
+            "5493d976-ac8e-4530-806e-16012e730106",
+            "collection-point"
+          ],
+          "query": [
+            {
+              "key": "pointNumber",
+              "value": "99"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E1 - Write a return receipt",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"itemName\": \"National ID Card\",\r\n  \"verificationNote\": \"Owner showed passport copy matching the names\",\r\n  \"itemsReturned\": 1\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/return-receipts/save?itemReportId=3d43d142-f722-4ea4-9d28-41b8374989d6",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "return-receipts",
+            "save"
+          ],
+          "query": [
+            {
+              "key": "itemReportId",
+              "value": "3d43d142-f722-4ea4-9d28-41b8374989d6"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E2 - Return receipt history of a reporter",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/return-receipts/reporter/AUCA-27628",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "return-receipts",
+            "reporter",
+            "AUCA-27628"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E3 - Delete and protect",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/return-receipts/delete/00000000-0000-0000-0000-000000000000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "return-receipts",
+            "delete",
+            "00000000-0000-0000-0000-000000000000"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F1 - Item reports per status",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/stats/by-status",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "stats",
+            "by-status"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "F2 - Custodian is absent",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/cancel-day?custodianId=5493d976-ac8e-4530-806e-16012e730106&date=2026-10-20",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "cancel-day"
+          ],
+          "query": [
+            {
+              "key": "custodianId",
+              "value": "5493d976-ac8e-4530-806e-16012e730106"
+            },
+            {
+              "key": "date",
+              "value": "2026-10-20"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus 1 - Dashboard summary",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/dashboard/summary",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "dashboard",
+            "summary"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Bonus 2 - Item reports pagination",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/item-reports/page?page=0&size=5&sort=reportDate,desc",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "item-reports",
+            "page"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "0"
+            },
+            {
+              "key": "size",
+              "value": "5"
+            },
+            {
+              "key": "sort",
+              "value": "reportDate,desc"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
